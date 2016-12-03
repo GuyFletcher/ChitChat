@@ -1,13 +1,13 @@
 package com.fletcherhart.chitchat;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends SingleFragmentActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+    protected Fragment createFragment() {
+        return new ChatFragment();
     }
 }

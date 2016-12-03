@@ -8,6 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Fletcher on 11/29/2016.
@@ -18,6 +22,8 @@ public class ChatFragment extends Fragment {
     private RecyclerView mRecycler;
     private ChatAdapter mAdapter;
 
+    private int mVotes;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -26,6 +32,8 @@ public class ChatFragment extends Fragment {
 
         mRecycler = (RecyclerView) view.findViewById(R.id.chat_recycler_view);
         mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mRecycler.setAdapter(mAdapter);
 
         if (savedInstanceState != null) {
            //mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
@@ -38,32 +46,53 @@ public class ChatFragment extends Fragment {
 
     private void updateUI()
     {
+        ChatLab chatLab = ChatLab.get(getActivity());
+        List<ChatPost> posts = chatLab.getPosts();
 
+        if (mAdapter == null) {
+            mAdapter = new ChatAdapter(posts);
+            mRecycler.setAdapter(mAdapter);
+        } else {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
 
     private class ChatHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
+        private ChatPost mPost;
+        private TextView mVotes, mTime, mPostText;
+
 
         public ChatHolder(View itemView)
         {
             super(itemView);
+            mTime = (TextView) itemView.findViewById(R.id.post_date);
+            mPostText = (TextView) itemView.findViewById(R.id.post_text);
+        }
 
+        public void bindPost(ChatPost post)
+        {
+           // mPost = post;
+            //mVotes.setText(post.getVotes());
+           // mTime.setText(post.getTime());
         }
 
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent();
-            startActivity(intent);
+            //Intent intent = new Intent();
+            //startActivity(intent);
         }
     }
 
     private class ChatAdapter extends RecyclerView.Adapter<ChatHolder>
     {
-        public ChatAdapter()
-        {
+        private List<ChatPost> mPosts;
 
+        public ChatAdapter(List<ChatPost> posts)
+        {
+            mPosts = posts;
         }
 
         @Override
@@ -75,12 +104,13 @@ public class ChatFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ChatHolder holder, int position) {
-
+            ChatPost post = mPosts.get(position);
+            holder.bindPost(post);
         }
 
         @Override
         public int getItemCount() {
-            return 1; //.size();
+            return mPosts.size(); //.size();
         }
 
     }
