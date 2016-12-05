@@ -22,8 +22,6 @@ public class ChatFragment extends Fragment {
     private RecyclerView mRecycler;
     private ChatAdapter mAdapter;
 
-    private int mVotes;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,7 +31,7 @@ public class ChatFragment extends Fragment {
         mRecycler = (RecyclerView) view.findViewById(R.id.chat_recycler_view);
         mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mRecycler.setAdapter(mAdapter);
+        //mRecycler.setAdapter(mAdapter);
 
         if (savedInstanceState != null) {
            //mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
@@ -58,7 +56,7 @@ public class ChatFragment extends Fragment {
     }
 
 
-    private class ChatHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    private class ChatHolder extends RecyclerView.ViewHolder
     {
         private ChatPost mPost;
         private TextView mVotes, mTime, mPostText;
@@ -69,20 +67,15 @@ public class ChatFragment extends Fragment {
             super(itemView);
             mTime = (TextView) itemView.findViewById(R.id.post_date);
             mPostText = (TextView) itemView.findViewById(R.id.post_text);
+            mVotes = (TextView) itemView.findViewById(R.id.post_vote);
         }
 
         public void bindPost(ChatPost post)
         {
-           // mPost = post;
-            //mVotes.setText(post.getVotes());
-           // mTime.setText(post.getTime());
-        }
-
-
-        @Override
-        public void onClick(View v) {
-            //Intent intent = new Intent();
-            //startActivity(intent);
+            mPost = post;
+            mVotes.setText("Hello"); //post.getVotes()
+            mTime.setText(post.getTime());
+            mPostText.setText(post.getText());
         }
     }
 
@@ -98,7 +91,8 @@ public class ChatFragment extends Fragment {
         @Override
         public ChatHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            View view = layoutInflater.inflate(R.layout.list_item_chat, parent, false);
+            View view = layoutInflater.inflate(R.layout.list_item_posts, parent, false);
+
             return new ChatHolder(view);
         }
 
@@ -110,7 +104,7 @@ public class ChatFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return mPosts.size(); //.size();
+            return mPosts.size();
         }
 
     }

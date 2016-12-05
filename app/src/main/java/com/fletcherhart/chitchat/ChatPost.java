@@ -19,8 +19,11 @@ public class ChatPost {
 
     public String getTime() {return mPostTime;}
     public int getVotes() {return mVotes;}
+    public String getText() {return mPost;}
 
     public void setPostText(String text) {mPost = text;}
+    public void setVotes(int votes) {mVotes = votes;}
+    public void setTime(String text) {mPostTime = text;}
     public UUID getId() {
         return mId;
     }

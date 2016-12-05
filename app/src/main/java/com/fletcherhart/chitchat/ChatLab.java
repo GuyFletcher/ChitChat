@@ -22,7 +22,9 @@ public class ChatLab {
         mPosts = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             ChatPost post = new ChatPost();
-            post.setPostText("Post #" + i);;
+            post.setPostText("Post #" + i);
+            post.setTime("Noon");
+            post.setVotes(3);
             mPosts.add(post);
         }
     }
