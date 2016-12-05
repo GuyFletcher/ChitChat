@@ -1,6 +1,7 @@
 package com.fletcherhart.chitchat;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +22,7 @@ public class ChatFragment extends Fragment {
 
     private RecyclerView mRecycler;
     private ChatAdapter mAdapter;
+    private List<ChatPost> mItems = new ArrayList<>();
 
 
     @Override
@@ -37,18 +39,17 @@ public class ChatFragment extends Fragment {
            //mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
         }
 
-        updateUI();
+        new FetchItemsTask().execute();
+
+        //updateUI();
 
         return view;
     }
 
     private void updateUI()
     {
-        ChatLab chatLab = ChatLab.get(getActivity());
-        List<ChatPost> posts = chatLab.getPosts();
-
         if (mAdapter == null) {
-            mAdapter = new ChatAdapter(posts);
+            mAdapter = new ChatAdapter(mItems);
             mRecycler.setAdapter(mAdapter);
         } else {
             mAdapter.notifyDataSetChanged();
@@ -59,7 +60,7 @@ public class ChatFragment extends Fragment {
     private class ChatHolder extends RecyclerView.ViewHolder
     {
         private ChatPost mPost;
-        private TextView mVotes, mTime, mPostText;
+        private TextView mLikes, mDislikes, mTime, mPostText;
 
 
         public ChatHolder(View itemView)
@@ -67,13 +68,13 @@ public class ChatFragment extends Fragment {
             super(itemView);
             mTime = (TextView) itemView.findViewById(R.id.post_date);
             mPostText = (TextView) itemView.findViewById(R.id.post_text);
-            mVotes = (TextView) itemView.findViewById(R.id.post_vote);
+            mLikes = (TextView) itemView.findViewById(R.id.post_vote);
         }
 
         public void bindPost(ChatPost post)
         {
             mPost = post;
-            mVotes.setText("Hello"); //post.getVotes()
+            mLikes.setText(post.getLikes()); //post.getVotes()
             mTime.setText(post.getTime());
             mPostText.setText(post.getText());
         }
@@ -105,6 +106,21 @@ public class ChatFragment extends Fragment {
         @Override
         public int getItemCount() {
             return mPosts.size();
+        }
+
+    }
+
+    private class FetchItemsTask extends AsyncTask<Void,Void,List<ChatPost>> {
+
+        @Override
+        protected List<ChatPost> doInBackground(Void... params) {
+            return new FetchPost().fetchItems();
+        }
+
+        @Override
+        protected void onPostExecute(List<ChatPost> items) {
+            mItems = items;
+            updateUI();
         }
 
     }

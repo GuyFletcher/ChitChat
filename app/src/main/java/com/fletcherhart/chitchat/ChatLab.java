@@ -20,12 +20,15 @@ public class ChatLab {
 
     private ChatLab(Context context) {
         mPosts = new ArrayList<>();
+
+        FetchPost post = new FetchPost();
+
         for (int i = 0; i < 100; i++) {
-            ChatPost post = new ChatPost();
-            post.setPostText("Post #" + i);
-            post.setTime("Noon");
-            post.setVotes(3);
-            mPosts.add(post);
+           // ChatPost post = new ChatPost();
+           // post.setPostText("Post #" + i);
+           // post.setTime("Noon");
+            //post.setVotes(3);
+           // mPosts.add(post);
         }
     }
 

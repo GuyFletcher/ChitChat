@@ -9,7 +9,7 @@ import java.util.UUID;
  */
 
 public class ChatPost {
-    public int mVotes;
+    public String mLikes, mDislikes;
     public String mPost;
     public String mPostTime;
     private UUID mId;
@@ -18,11 +18,13 @@ public class ChatPost {
     //textView.setText(currentDateTimeString);
 
     public String getTime() {return mPostTime;}
-    public int getVotes() {return mVotes;}
+    public String getLikes() {return mLikes;}
+    public String getDislikes() {return mDislikes;}
     public String getText() {return mPost;}
 
     public void setPostText(String text) {mPost = text;}
-    public void setVotes(int votes) {mVotes = votes;}
+    public void setLikes(String votes) {mLikes = votes;}
+    public void setDislikes(String votes) {mDislikes = votes;}
     public void setTime(String text) {mPostTime = text;}
     public UUID getId() {
         return mId;
