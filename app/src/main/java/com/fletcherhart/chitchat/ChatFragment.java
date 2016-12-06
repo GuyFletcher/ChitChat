@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -70,13 +71,15 @@ public class ChatFragment extends Fragment {
             super(itemView);
             mTime = (TextView) itemView.findViewById(R.id.post_date);
             mPostText = (TextView) itemView.findViewById(R.id.post_text);
-            mLikes = (TextView) itemView.findViewById(R.id.post_vote);
+            mLikes = (TextView) itemView.findViewById(R.id.post_upvote);
+            mDislikes = (TextView) itemView.findViewById(R.id.post_downvote);
         }
 
         public void bindPost(ChatPost post)
         {
             mPost = post;
-            mLikes.setText(post.getLikes()); //post.getVotes()
+            mLikes.setText("Likes: " + post.getLikes());
+            mDislikes.setText("Dislikes: "+post.getDislikes());
             mTime.setText(post.getTime());
             mPostText.setText(post.getText());
         }

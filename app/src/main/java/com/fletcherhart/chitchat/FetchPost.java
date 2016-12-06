@@ -22,7 +22,7 @@ public class FetchPost {
 
     private static final String API_KEY = "champlainrocks1878";
 
-    public byte[] getUrlBytes(String urlSpec) throws IOException {
+    public byte[] getUrlBytes(String urlSpec) throws IOException {         //taken unedited from PhotoGallery code in chapter 23
         URL url = new URL(urlSpec);
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
         try {
@@ -56,9 +56,9 @@ public class FetchPost {
             String url = Uri.parse("https://www.stepoutnyc.com/chitchat")
                     .buildUpon()
                     .appendQueryParameter("key", API_KEY)
+                    .appendQueryParameter("count", "4")
                     .build().toString();
-           // System.out.println(url);
-
+            System.out.println(url);
             String jsonString = getUrlString(url);
             Log.i(TAG, "Received JSON: " + jsonString);
             JSONObject jsonBody = new JSONObject(jsonString);
@@ -76,9 +76,8 @@ public class FetchPost {
             throws IOException, JSONException {
 
         JSONArray postsJsonArray = jsonBody.getJSONArray("messages");
-        //JSONArray postJsonArray = postsJsonObject.getJSONArray("messages");
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < postsJsonArray.length(); i++) {
             JSONObject postJsonObject = postsJsonArray.getJSONObject(i);
 
             ChatPost item = new ChatPost();
