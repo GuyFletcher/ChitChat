@@ -41,6 +41,8 @@ public class ChatFragment extends Fragment {
 
         new FetchItemsTask().execute();
 
+        new CreatePostTask().execute();
+
         //updateUI();
 
         return view;
@@ -123,6 +125,26 @@ public class ChatFragment extends Fragment {
             updateUI();
         }
 
+    }
+
+    public class CreatePostTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+
+        @Override
+        protected String doInBackground(String... params) {
+            return new CreatePost().createItem(params);
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            new FetchItemsTask().execute();
+        }
     }
 
 
