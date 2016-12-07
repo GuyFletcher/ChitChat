@@ -2,17 +2,19 @@ package com.fletcherhart.chitchat;
 
 import android.widget.TextView;
 
+import java.util.Comparator;
 import java.util.UUID;
 
 /**
  * Created by Fletcher on 12/3/2016.
  */
 
-public class ChatPost {
+public class ChatPost implements Comparator<ChatPost> {
     public String mLikes, mDislikes;
     public String mPost;
     public String mPostTime;
     private UUID mId;
+    private int likes;
 
     //String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
     //textView.setText(currentDateTimeString);
@@ -22,12 +24,32 @@ public class ChatPost {
     public String getDislikes() {return mDislikes;}
     public String getText() {return mPost;}
 
+
+
+    public void setlikes(int votes) {likes = votes;}
+    public int getlikes() {return likes;}
+
+
     public void setPostText(String text) {mPost = text;}
     public void setLikes(String votes) {mLikes = votes;}
     public void setDislikes(String votes) {mDislikes = votes;}
     public void setTime(String text) {mPostTime = text;}
     public UUID getId() {
         return mId;
+    }
+
+    public int compare(ChatPost x, ChatPost y)
+    {
+        int comparison = compare(x.getlikes(), y.getlikes());
+
+        return comparison != 0 ? comparison
+                : compare(x.getlikes(), y.getlikes());
+    }
+
+    private static int compare(long a, long b) {
+        return a < b ? -1
+                : a > b ? 1
+                : 0;
     }
 
 }

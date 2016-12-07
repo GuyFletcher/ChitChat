@@ -85,6 +85,7 @@ public class FetchPost {
            // item.setId(postJsonObject.getString("id"));
             item.setPostText(postJsonObject.getString("message"));
             item.setLikes(postJsonObject.getString("likes"));
+            item.setlikes(Integer.parseInt(postJsonObject.getString("likes")));
             item.setDislikes(postJsonObject.getString("dislikes"));
             item.setTime(postJsonObject.getString("date"));
 

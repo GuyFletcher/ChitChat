@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -26,6 +28,7 @@ public class ChatFragment extends Fragment {
     private ChatAdapter mAdapter;
     private List<ChatPost> mItems = new ArrayList<>();
     private EditText mNewMessage;
+    private Button mSort;
 
 
     @Override
@@ -34,7 +37,13 @@ public class ChatFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
 
         mNewMessage = (EditText) view.findViewById(R.id.message);
-
+        mSort = (Button) view.findViewById(R.id.sort);
+        mSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sortPosts();
+            }
+        });
 
         mRecycler = (RecyclerView) view.findViewById(R.id.chat_recycler_view);
         mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -62,6 +71,19 @@ public class ChatFragment extends Fragment {
         } else {
             mAdapter.notifyDataSetChanged();
         }
+    }
+
+    private void sortPosts() {
+        Collections.sort(mItems, new Comparator<ChatPost>() {
+            @Override
+            public int compare(ChatPost p1, ChatPost p2) {
+                //System.out.println("p1: "+ p1.getlikes() + " p2: " + p2.getlikes());
+                return p2.getlikes() - p1.getlikes() ;
+            }
+        });
+
+        mAdapter = new ChatAdapter(mItems);
+        mRecycler.setAdapter(mAdapter);
     }
 
 
