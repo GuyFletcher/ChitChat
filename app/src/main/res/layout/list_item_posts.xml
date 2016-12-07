@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_gravity="center">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" >
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/downvote"
-        android:text="▼"/>
+        android:text="▼"
+        android:background="#ff0000"
+        android:layout_gravity="center"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/upvote"
-        android:text="▲"/>
+        android:text="▲"
+        android:background="#00ff00"
+        android:layout_gravity="center"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,27 +37,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textSize="24dp"/>
+        android:textSize="24dp"
+        android:layout_gravity="center"/>
 
     <TextView
         android:id="@+id/post_upvote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textSize="24dp"/>
+        android:textSize="24dp"
+        android:layout_gravity="center"
+        />
 
         <TextView
             android:id="@+id/post_downvote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="24dp"/>
+            android:textSize="24dp"
+            android:layout_gravity="center"/>
 
         <TextView
             android:id="@+id/post_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24dp"/>
+            android:textSize="24dp"
+            android:layout_gravity="center"/>
 
     </LinearLayout>
 
