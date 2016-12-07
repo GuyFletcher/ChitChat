@@ -56,7 +56,8 @@ public class FetchPost {
             String url = Uri.parse("https://www.stepoutnyc.com/chitchat")
                     .buildUpon()
                     .appendQueryParameter("key", API_KEY)
-                    .appendQueryParameter("count", "4")
+                    .appendQueryParameter("limit", "40")
+                    .appendQueryParameter("skip", Integer.toString(0))
                     .build().toString();
             System.out.println(url);
             String jsonString = getUrlString(url);

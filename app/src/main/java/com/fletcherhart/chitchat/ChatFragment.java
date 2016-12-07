@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -24,12 +25,16 @@ public class ChatFragment extends Fragment {
     private RecyclerView mRecycler;
     private ChatAdapter mAdapter;
     private List<ChatPost> mItems = new ArrayList<>();
+    private EditText mNewMessage;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
+
+        mNewMessage = (EditText) view.findViewById(R.id.message);
+
 
         mRecycler = (RecyclerView) view.findViewById(R.id.chat_recycler_view);
         mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
