@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,12 +30,26 @@ public class ChatFragment extends Fragment {
     private List<ChatPost> mItems = new ArrayList<>();
     private EditText mNewMessage;
     private Button mSort;
+    private SwipeRefreshLayout swipeContainer;
+
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
+
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new FetchItemsTask().execute();
+
+                new CreatePostTask().execute();
+                swipeContainer.setRefreshing(false);
+            }
+        });
+
 
         mNewMessage = (EditText) view.findViewById(R.id.message);
         mSort = (Button) view.findViewById(R.id.sort);
@@ -63,6 +78,8 @@ public class ChatFragment extends Fragment {
         return view;
     }
 
+
+
     private void updateUI()
     {
         if (mAdapter == null) {
@@ -74,8 +91,8 @@ public class ChatFragment extends Fragment {
     }
 
     private void sortPosts() {
-        Collections.sort(mItems, new Comparator<ChatPost>() {
-            @Override
+        Collections.sort(mItems, new Comparator<ChatPost>() { //copied and edited from link below
+            @Override                                   //https://stackoverflow.com/questions/2535124/how-to-sort-an-arraylist-of-objects-by-a-property
             public int compare(ChatPost p1, ChatPost p2) {
                 //System.out.println("p1: "+ p1.getlikes() + " p2: " + p2.getlikes());
                 return p2.getlikes() - p1.getlikes() ;
