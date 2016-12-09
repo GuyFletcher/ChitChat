@@ -1,9 +1,6 @@
 package com.fletcherhart.chitchat;
 
-import android.widget.TextView;
-
 import java.util.Comparator;
-import java.util.UUID;
 
 /**
  * Created by Fletcher on 12/3/2016.

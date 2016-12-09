@@ -89,7 +89,6 @@ public class FetchPost {
             item.setDislikes(postJsonObject.getString("dislikes"));
             item.setTime(postJsonObject.getString("date"));
             item.setId(postJsonObject.getString("_id"));
-
             //item.setUrl(postJsonObject.getString("url_s"));
             items.add(item);
         }

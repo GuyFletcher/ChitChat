@@ -41,6 +41,8 @@ public class ChatFragment extends Fragment {
     private EditText mNewMessage;
     private Button mSort;
     private SwipeRefreshLayout swipeContainer;
+    private Button likePost;
+    private Button dislikePost;
 
 
 
@@ -158,11 +160,11 @@ public class ChatFragment extends Fragment {
     }
 
 
-    private class ChatHolder extends RecyclerView.ViewHolder
+    private class ChatHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         private ChatPost mPost;
-        private TextView  mTime, mPostText;
-        private Button mLikes, mDislikes;
+        public TextView  mTime, mPostText;
+        public Button mLikes, mDislikes;
 
 
         public ChatHolder(View itemView)
@@ -172,7 +174,20 @@ public class ChatFragment extends Fragment {
             mPostText = (TextView) itemView.findViewById(R.id.post_text);
             mLikes = (Button) itemView.findViewById(R.id.upvote);
             mDislikes = (Button) itemView.findViewById(R.id.downvote);
+            mDislikes.setOnClickListener(this);
+            mLikes.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+
+            if (v.getId() == mLikes.getId()){
+                System.out.println("Liked");
+            } else if (v.getId() == mDislikes.getId()){
+                System.out.println("Disliked");
+            }
+        }
+
 
         public void bindPost(ChatPost post)
         {
@@ -181,6 +196,9 @@ public class ChatFragment extends Fragment {
             mDislikes.setText("Dislikes: "+post.getDislikes());
             mTime.setText(post.getTime());
             mPostText.setText(post.getText());
+            mLikes.setTag(post.getId());
+            mDislikes.setTag(post.getId());
+            System.out.println("Post ID: " + post.getId());
         }
     }
 
@@ -205,6 +223,14 @@ public class ChatFragment extends Fragment {
         public void onBindViewHolder(ChatHolder holder, int position) {
             ChatPost post = mPosts.get(position);
             holder.bindPost(post);
+
+//            holder.mDislikes.setOnClickListener(new View.OnClickListener(){
+//                @Override
+//                public void onClick(View v) {
+//                    System.out.print("Clicked");
+//                    //System.out.print(v.getTag());
+//                }
+//            });
         }
 
         @Override
