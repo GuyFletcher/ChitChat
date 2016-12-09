@@ -100,12 +100,8 @@ public class ChatFragment extends Fragment {
 
     private void updateUI()
     {
-        if (mAdapter == null) {
             mAdapter = new ChatAdapter(mItems);
             mRecycler.setAdapter(mAdapter);
-        } else {
-            mAdapter.notifyDataSetChanged();
-        }
     }
 
     private void createPost() {
