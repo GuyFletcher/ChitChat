@@ -165,7 +165,8 @@ public class ChatFragment extends Fragment {
     private class ChatHolder extends RecyclerView.ViewHolder
     {
         private ChatPost mPost;
-        private TextView mLikes, mDislikes, mTime, mPostText;
+        private TextView  mTime, mPostText;
+        private Button mLikes, mDislikes;
 
 
         public ChatHolder(View itemView)
@@ -173,8 +174,8 @@ public class ChatFragment extends Fragment {
             super(itemView);
             mTime = (TextView) itemView.findViewById(R.id.post_date);
             mPostText = (TextView) itemView.findViewById(R.id.post_text);
-            mLikes = (TextView) itemView.findViewById(R.id.post_upvote);
-            mDislikes = (TextView) itemView.findViewById(R.id.post_downvote);
+            mLikes = (Button) itemView.findViewById(R.id.upvote);
+            mDislikes = (Button) itemView.findViewById(R.id.downvote);
         }
 
         public void bindPost(ChatPost post)

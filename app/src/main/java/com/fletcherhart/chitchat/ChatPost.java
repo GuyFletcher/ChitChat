@@ -13,7 +13,7 @@ public class ChatPost implements Comparator<ChatPost> {
     public String mLikes, mDislikes;
     public String mPost;
     public String mPostTime;
-    private UUID mId;
+    private String mId;
     private int likes;
 
     //String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
@@ -23,9 +23,10 @@ public class ChatPost implements Comparator<ChatPost> {
     public String getLikes() {return mLikes;}
     public String getDislikes() {return mDislikes;}
     public String getText() {return mPost;}
+    public String getId() {return mId;}
 
 
-
+    public void setId(String id) {mId = id;}
     public void setlikes(int votes) {likes = votes;}
     public int getlikes() {return likes;}
 
@@ -34,9 +35,6 @@ public class ChatPost implements Comparator<ChatPost> {
     public void setLikes(String votes) {mLikes = votes;}
     public void setDislikes(String votes) {mDislikes = votes;}
     public void setTime(String text) {mPostTime = text;}
-    public UUID getId() {
-        return mId;
-    }
 
     public int compare(ChatPost x, ChatPost y)
     {
