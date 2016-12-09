@@ -1,30 +1,33 @@
 package com.fletcherhart.chitchat;
 
-import android.content.Context;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
+
 
 /**
  * Created by Fletcher on 11/29/2016.
@@ -57,6 +60,18 @@ public class ChatFragment extends Fragment {
 
 
         mNewMessage = (EditText) view.findViewById(R.id.message);
+        mNewMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    createPost();
+                    handled = true;
+                }
+                return handled;
+            }
+        });
+
         mSort = (Button) view.findViewById(R.id.sort);
         mSort.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +106,46 @@ public class ChatFragment extends Fragment {
         } else {
             mAdapter.notifyDataSetChanged();
         }
+    }
+
+    private void createPost() {
+        JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject responseBody) {
+                System.out.println(responseBody);
+                //Get items again
+                new FetchItemsTask().execute();
+            }
+
+            public void onFailure(int statusCode, Header[] headers, JSONObject responseBody, Throwable error) {
+                System.out.println("Failure!");
+            }
+        };
+        String url = "chitchat";
+
+        String message = mNewMessage.getText().toString();
+
+        String nUrl = Uri.parse("https://www.stepoutnyc.com/chitchat")
+                .buildUpon()
+                .appendQueryParameter("message", message)
+                .appendQueryParameter("client", "j_fletch")
+                .appendQueryParameter("key", "champlainrocks1878")
+                .build().toString();
+
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        //Allow error handling in monitor
+        System.out.print(client.post(nUrl, responseHandler));
+
+        //Check to make sure not to clear text as its being read
+        if (mNewMessage.length() > 0) {
+            mNewMessage.getText().clear();
+        }
+
+    }
+
+    private String getAbsoluteUrl(String relativeUrl) {
+        return "https://www.stepoutnyc.com/" + relativeUrl;
     }
 
     private void sortPosts() {
@@ -176,29 +231,5 @@ public class ChatFragment extends Fragment {
         }
 
     }
-
-    public class CreatePost {
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
-        String url ="http://www.google.com";
-
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        System.out.println("Response is: "+ response.substring(0,500));
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println("That didn't work!");
-            }
-        });
-        // Add the request to the RequestQueue.
-
-        queue.add(StringRequest);
-    }
-
 
 }
