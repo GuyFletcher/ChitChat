@@ -182,9 +182,13 @@ public class ChatFragment extends Fragment {
         public void onClick(View v) {
 
             if (v.getId() == mLikes.getId()){
-                System.out.println("Liked");
+                System.out.println("Liked post " + v.getTag());
             } else if (v.getId() == mDislikes.getId()){
-                System.out.println("Disliked");
+                System.out.println("Disliked post " + v.getTag());
+
+                //Use v.getTag() at the end of the URL for the get request to
+                //make it like the post on the server. After that, just increase the number
+
             }
         }
 
