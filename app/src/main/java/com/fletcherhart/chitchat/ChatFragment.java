@@ -180,11 +180,54 @@ public class ChatFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
+            Object id = v.getTag();
 
+            /* Disable buttons */
+
+            mLikes.setEnabled(false);
+            mDislikes.setEnabled(false);
+
+            /* Set up response handler */
+
+            JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject responseBody) {
+                    System.out.println(responseBody);
+                    //Get items again
+                }
+
+                public void onFailure(int statusCode, Header[] headers, JSONObject responseBody, Throwable error) {
+                    System.out.println("Failure!");
+                }
+            };
+
+            /* Set up client */
+
+            AsyncHttpClient client = new AsyncHttpClient();
+
+            /** Check what was clicked **/
             if (v.getId() == mLikes.getId()){
-                System.out.println("Liked post " + v.getTag());
+                String nUrl = Uri.parse("https://www.stepoutnyc.com/chitchat/like/"+id)
+                        .buildUpon()
+                        .appendQueryParameter("key", "champlainrocks1878")
+                        .build().toString();
+                System.out.println(client.get(nUrl, responseHandler));
+
+                mPost.setLikes(String.valueOf(Integer.parseInt(mPost.getLikes())+1));
+                mLikes.setText("Likes: " + mPost.getLikes());
+
             } else if (v.getId() == mDislikes.getId()){
+
                 System.out.println("Disliked post " + v.getTag());
+                String nUrl = Uri.parse("https://www.stepoutnyc.com/chitchat/dislike/"+id)
+                        .buildUpon()
+                        .appendQueryParameter("key", "champlainrocks1878")
+                        .build().toString();
+
+                System.out.print(client.get(nUrl, responseHandler));
+
+                mPost.setDislikes(String.valueOf(Integer.parseInt(mPost.getDislikes())+1));
+                mDislikes.setText("Likes: " + mPost.getDislikes());
 
                 //Use v.getTag() at the end of the URL for the get request to
                 //make it like the post on the server. After that, just increase the number
